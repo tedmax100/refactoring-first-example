@@ -16,7 +16,7 @@ namespace Refactoring.FirstExampleTests
 
             foreach (var perf in invoice.Performances)
             {
-                var play = plays[perf.PlayId];
+                var play = PlayFor(plays, perf);
                 var thisAmount = 0;
 
                 thisAmount = AmountFor(play, perf);
@@ -33,6 +33,12 @@ namespace Refactoring.FirstExampleTests
             result += $"Amount owed is {format(totalAmount / 100)}\r\n";
             result += $"You earned {volumeCredits} credits";
             return result;
+        }
+
+        private static Play PlayFor(Dictionary<string, Play> plays, Performance perf)
+        {
+            var play = plays[perf.PlayId];
+            return play;
         }
 
         private static int AmountFor(Play play, Performance aPerformance)
