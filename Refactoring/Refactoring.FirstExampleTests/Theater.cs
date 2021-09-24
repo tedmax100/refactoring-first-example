@@ -9,14 +9,19 @@ namespace Refactoring.FirstExampleTests
         private Dictionary<string, Play> _plays;
         public string Statement(Invoice invoice, Dictionary<string, Play> plays)
         {
+            return RenderPlainText(invoice, plays);
+        }
+
+        private string RenderPlainText(Invoice invoice, Dictionary<string, Play> plays)
+        {
             _plays = plays;
-           
+
             var result = $"Statement for {invoice.Customer}\r\n";
 
             foreach (var perf in invoice.Performances)
             {
                 // print line for this order
-                result += $" {PlayFor(perf).Name}: {USD(AmountFor(perf) )} ({perf.Audience} seats)\r\n";
+                result += $" {PlayFor(perf).Name}: {USD(AmountFor(perf))} ({perf.Audience} seats)\r\n";
             }
 
             result += $"Amount owed is {USD(TotalAmount(invoice))}\r\n";
