@@ -10,13 +10,18 @@ namespace Refactoring.FirstExampleTests
         public string Statement(Invoice invoice, Dictionary<string, Play> plays)
         {
             _plays = plays;
-            var totalAmount = 0;
+           
             var result = $"Statement for {invoice.Customer}\r\n";
 
             foreach (var perf in invoice.Performances)
             {
                 // print line for this order
                 result += $" {PlayFor(perf).Name}: {USD(AmountFor(perf) )} ({perf.Audience} seats)\r\n";
+            }
+            
+            var totalAmount = 0;
+            foreach (var perf in invoice.Performances)
+            {
                 totalAmount += AmountFor(perf);
             }
 
