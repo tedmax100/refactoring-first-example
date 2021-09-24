@@ -22,10 +22,7 @@ namespace Refactoring.FirstExampleTests
 
                 thisAmount = AmountFor(perf);
 
-                // add volume credits
-                volumeCredits += Math.Max(perf.Audience - 30, 0);
-                // add extra credit for every ten comedy attendees
-                if ("comedy" == PlayFor(perf).Type) volumeCredits += (int)Math.Floor((double)perf.Audience / 5);
+                volumeCredits += VolumeCreditsFor(perf);
 
                 // print line for this order
                 result += $" {PlayFor(perf).Name}: {format(thisAmount / 100)} ({perf.Audience} seats)\r\n";
@@ -34,6 +31,16 @@ namespace Refactoring.FirstExampleTests
             result += $"Amount owed is {format(totalAmount / 100)}\r\n";
             result += $"You earned {volumeCredits} credits";
             return result;
+        }
+
+        private int VolumeCreditsFor(Performance perf)
+        {
+            int volumeCredits = 0;
+            // add volume credits
+            volumeCredits += Math.Max(perf.Audience - 30, 0);
+            // add extra credit for every ten comedy attendees
+            if ("comedy" == PlayFor(perf).Type) volumeCredits += (int) Math.Floor((double) perf.Audience / 5);
+            return volumeCredits;
         }
 
         private Play PlayFor( Performance perf)
