@@ -14,8 +14,6 @@ namespace Refactoring.FirstExampleTests
             var volumeCredits = 0;
             var result = $"Statement for {invoice.Customer}\r\n";
 
-            var format = IntlNumberFormat("en-US", "C", "$", 2);
-
             foreach (var perf in invoice.Performances)
             {
                 var thisAmount = 0;
@@ -25,12 +23,18 @@ namespace Refactoring.FirstExampleTests
                 volumeCredits += VolumeCreditsFor(perf);
 
                 // print line for this order
-                result += $" {PlayFor(perf).Name}: {format(thisAmount / 100)} ({perf.Audience} seats)\r\n";
+                result += $" {PlayFor(perf).Name}: {Format()(thisAmount / 100)} ({perf.Audience} seats)\r\n";
                 totalAmount += thisAmount;
             }
-            result += $"Amount owed is {format(totalAmount / 100)}\r\n";
+            result += $"Amount owed is {Format()(totalAmount / 100)}\r\n";
             result += $"You earned {volumeCredits} credits";
             return result;
+        }
+
+        private Func<int, string> Format()
+        {
+            var format = IntlNumberFormat("en-US", "C", "$", 2);
+            return format;
         }
 
         private int VolumeCreditsFor(Performance perf)
