@@ -35,12 +35,12 @@ namespace Refactoring.FirstExampleTests
 
         private int VolumeCreditsFor(Performance perf)
         {
-            int volumeCredits = 0;
+            int result = 0;
             // add volume credits
-            volumeCredits += Math.Max(perf.Audience - 30, 0);
+            result += Math.Max(perf.Audience - 30, 0);
             // add extra credit for every ten comedy attendees
-            if ("comedy" == PlayFor(perf).Type) volumeCredits += (int) Math.Floor((double) perf.Audience / 5);
-            return volumeCredits;
+            if ("comedy" == PlayFor(perf).Type) result += (int) Math.Floor((double) perf.Audience / 5);
+            return result;
         }
 
         private Play PlayFor( Performance perf)
