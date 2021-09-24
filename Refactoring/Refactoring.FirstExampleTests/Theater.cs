@@ -26,13 +26,13 @@ namespace Refactoring.FirstExampleTests
 
         private int TotalAmount(Invoice invoice)
         {
-            var totalAmount = 0;
+            var result = 0;
             foreach (var perf in invoice.Performances)
             {
-                totalAmount += AmountFor(perf);
+                result += AmountFor(perf);
             }
 
-            return totalAmount;
+            return result;
         }
 
         private int TotalVolumeCredits(Invoice invoice)
