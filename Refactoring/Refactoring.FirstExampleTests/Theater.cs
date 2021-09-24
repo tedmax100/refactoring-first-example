@@ -6,33 +6,40 @@ namespace Refactoring.FirstExampleTests
 {
     public class Theater
     {
+        internal class StatementData
+        {
+            public string Customer { get; set; }
+            public IEnumerable<Performance> Performances { get; set; }
+        }
+        
         private Dictionary<string, Play> _plays;
         public string Statement(Invoice invoice, Dictionary<string, Play> plays)
         {
-            return RenderPlainText(invoice, plays);
+            var statementData = new StatementData() {Customer = invoice.Customer, Performances = invoice.Performances};
+            return RenderPlainText(statementData, plays);
         }
 
-        private string RenderPlainText(Invoice invoice, Dictionary<string, Play> plays)
+        private string RenderPlainText(StatementData data, Dictionary<string, Play> plays)
         {
             _plays = plays;
 
-            var result = $"Statement for {invoice.Customer}\r\n";
+            var result = $"Statement for {data.Customer}\r\n";
 
-            foreach (var perf in invoice.Performances)
+            foreach (var perf in data.Performances)
             {
                 // print line for this order
                 result += $" {PlayFor(perf).Name}: {USD(AmountFor(perf))} ({perf.Audience} seats)\r\n";
             }
 
-            result += $"Amount owed is {USD(TotalAmount(invoice))}\r\n";
-            result += $"You earned {TotalVolumeCredits(invoice)} credits";
+            result += $"Amount owed is {USD(TotalAmount(data))}\r\n";
+            result += $"You earned {TotalVolumeCredits(data)} credits";
             return result;
         }
 
-        private int TotalAmount(Invoice invoice)
+        private int TotalAmount(StatementData data)
         {
             var result = 0;
-            foreach (var perf in invoice.Performances)
+            foreach (var perf in data.Performances)
             {
                 result += AmountFor(perf);
             }
@@ -40,10 +47,10 @@ namespace Refactoring.FirstExampleTests
             return result;
         }
 
-        private int TotalVolumeCredits(Invoice invoice)
+        private int TotalVolumeCredits(StatementData data)
         {
             var volumeCredits = 0;
-            foreach (var perf in invoice.Performances)
+            foreach (var perf in data.Performances)
             {
                 volumeCredits += VolumeCreditsFor(perf);
             }
