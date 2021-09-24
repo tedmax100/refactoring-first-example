@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace Refactoring.FirstExampleTests
 {
@@ -15,8 +16,13 @@ namespace Refactoring.FirstExampleTests
         private Dictionary<string, Play> _plays;
         public string Statement(Invoice invoice, Dictionary<string, Play> plays)
         {
-            var statementData = new StatementData() {Customer = invoice.Customer, Performances = invoice.Performances};
+            var statementData = new StatementData() {Customer = invoice.Customer, Performances = EnrichPerformance(invoice)};
             return RenderPlainText(statementData, plays);
+        }
+
+        private IEnumerable<Performance> EnrichPerformance(Invoice invoice)
+        {
+            return invoice.Performances.Select(p => p);
         }
 
         private string RenderPlainText(StatementData data, Dictionary<string, Play> plays)
