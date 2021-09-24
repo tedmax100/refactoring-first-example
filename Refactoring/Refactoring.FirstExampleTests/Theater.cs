@@ -23,17 +23,17 @@ namespace Refactoring.FirstExampleTests
                 volumeCredits += VolumeCreditsFor(perf);
 
                 // print line for this order
-                result += $" {PlayFor(perf).Name}: {USD(thisAmount / 100)} ({perf.Audience} seats)\r\n";
+                result += $" {PlayFor(perf).Name}: {USD(thisAmount )} ({perf.Audience} seats)\r\n";
                 totalAmount += thisAmount;
             }
-            result += $"Amount owed is {USD(totalAmount / 100)}\r\n";
+            result += $"Amount owed is {USD(totalAmount)}\r\n";
             result += $"You earned {volumeCredits} credits";
             return result;
         }
 
         private string USD(int thisAmount)
         {
-            return IntlNumberFormat("en-US", "C", "$", 2)(thisAmount);
+            return IntlNumberFormat("en-US", "C", "$", 2)(thisAmount / 100);
         }
 
         private int VolumeCreditsFor(Performance perf)
