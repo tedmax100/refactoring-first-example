@@ -16,15 +16,11 @@ namespace Refactoring.FirstExampleTests
 
             foreach (var perf in invoice.Performances)
             {
-                var thisAmount = 0;
-
-                thisAmount = AmountFor(perf);
-
                 volumeCredits += VolumeCreditsFor(perf);
 
                 // print line for this order
-                result += $" {PlayFor(perf).Name}: {USD(thisAmount )} ({perf.Audience} seats)\r\n";
-                totalAmount += thisAmount;
+                result += $" {PlayFor(perf).Name}: {USD(AmountFor(perf) )} ({perf.Audience} seats)\r\n";
+                totalAmount += AmountFor(perf);
             }
             result += $"Amount owed is {USD(totalAmount)}\r\n";
             result += $"You earned {volumeCredits} credits";
