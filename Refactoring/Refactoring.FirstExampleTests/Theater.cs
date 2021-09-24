@@ -6,8 +6,10 @@ namespace Refactoring.FirstExampleTests
 {
     public class Theater
     {
+        private Dictionary<string, Play> _plays;
         public string Statement(Invoice invoice, Dictionary<string, Play> plays)
         {
+            _plays = plays;
             var totalAmount = 0;
             var volumeCredits = 0;
             var result = $"Statement for {invoice.Customer}\r\n";
@@ -18,15 +20,15 @@ namespace Refactoring.FirstExampleTests
             {
                 var thisAmount = 0;
 
-                thisAmount = AmountFor(PlayFor(plays, perf), perf);
+                thisAmount = AmountFor(perf);
 
                 // add volume credits
                 volumeCredits += Math.Max(perf.Audience - 30, 0);
                 // add extra credit for every ten comedy attendees
-                if ("comedy" == PlayFor(plays, perf).Type) volumeCredits += (int)Math.Floor((double)perf.Audience / 5);
+                if ("comedy" == PlayFor(perf).Type) volumeCredits += (int)Math.Floor((double)perf.Audience / 5);
 
                 // print line for this order
-                result += $" {PlayFor(plays, perf).Name}: {format(thisAmount / 100)} ({perf.Audience} seats)\r\n";
+                result += $" {PlayFor(perf).Name}: {format(thisAmount / 100)} ({perf.Audience} seats)\r\n";
                 totalAmount += thisAmount;
             }
             result += $"Amount owed is {format(totalAmount / 100)}\r\n";
@@ -34,16 +36,15 @@ namespace Refactoring.FirstExampleTests
             return result;
         }
 
-        private static Play PlayFor(Dictionary<string, Play> plays, Performance perf)
+        private Play PlayFor( Performance perf)
         {
-            var play = plays[perf.PlayId];
-            return play;
+            return _plays[perf.PlayId];
         }
 
-        private static int AmountFor(Play play, Performance aPerformance)
+        private int AmountFor(Performance aPerformance)
         {
             int result;
-            switch (play.Type)
+            switch (PlayFor(aPerformance).Type)
             {
                 case "tragedy":
                     result = 40000;
@@ -63,7 +64,7 @@ namespace Refactoring.FirstExampleTests
                     result += 300 * aPerformance.Audience;
                     break;
                 default:
-                    throw new Exception($"unknown type: {play.Type}");
+                    throw new Exception($"unknown type: {PlayFor(aPerformance).Type}");
             }
 
             return result;
