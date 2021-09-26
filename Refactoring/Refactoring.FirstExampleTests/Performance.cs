@@ -7,6 +7,8 @@ namespace Refactoring.FirstExampleTests
         public int Audience { get; }
 
         public int Amount { get; set; }
+        
+        public int VolumeCredits { get; set; }
         public Performance(string playId, int audience)
         {
             PlayId = playId;

@@ -26,6 +26,7 @@ namespace Refactoring.FirstExampleTests
             var p = performance.Clone();
             p.Play = PlayFor(p);
             p.Amount = AmountFor(p);
+            p.VolumeCredits = VolumeCreditsFor(p);
             return p;
         }
 
@@ -62,7 +63,7 @@ namespace Refactoring.FirstExampleTests
             var volumeCredits = 0;
             foreach (var perf in data.Performances)
             {
-                volumeCredits += VolumeCreditsFor(perf);
+                volumeCredits += perf.VolumeCredits;
             }
 
             return volumeCredits;
