@@ -15,6 +15,18 @@ namespace Refactoring.FirstExampleTests
             public int TotalVolumeCredits { get; set; }
         }
         
+        private StatementData CreateStatementData(Invoice invoice)
+        {
+            var statementData = new StatementData
+            {
+                Customer = invoice.Customer,
+                Performances = invoice.Performances.Select(p => EnrichPerformance(p)).ToList()
+            };
+            statementData.TotalAmount = TotalAmount(statementData);
+            statementData.TotalVolumeCredits = TotalVolumeCredits(statementData);
+            return statementData;
+        }
+        
         private Performance EnrichPerformance(Performance performance)
         {
             var p = performance.Clone();

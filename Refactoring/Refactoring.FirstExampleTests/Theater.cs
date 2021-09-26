@@ -13,18 +13,6 @@ namespace Refactoring.FirstExampleTests
             _plays = plays;
             return RenderPlainText(CreateStatementData(invoice), plays);
         }
-
-        private StatementData CreateStatementData(Invoice invoice)
-        {
-            var statementData = new StatementData
-            {
-                Customer = invoice.Customer,
-                Performances = invoice.Performances.Select(p => EnrichPerformance(p)).ToList()
-            };
-            statementData.TotalAmount = TotalAmount(statementData);
-            statementData.TotalVolumeCredits = TotalVolumeCredits(statementData);
-            return statementData;
-        }
         
         private string RenderPlainText(StatementData data, Dictionary<string, Play> plays)
         {
