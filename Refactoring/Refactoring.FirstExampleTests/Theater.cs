@@ -20,11 +20,19 @@ namespace Refactoring.FirstExampleTests
         public string Statement(Invoice invoice, Dictionary<string, Play> plays)
         {
             _plays = plays;
-            var statementData = new StatementData() {Customer = invoice.Customer};
-            statementData.Performances = invoice.Performances.Select(p => EnrichPerformance(p)).ToList();
+            return RenderPlainText(CreateStatementData(invoice), plays);
+        }
+
+        private StatementData CreateStatementData(Invoice invoice)
+        {
+            var statementData = new StatementData
+            {
+                Customer = invoice.Customer,
+                Performances = invoice.Performances.Select(p => EnrichPerformance(p)).ToList()
+            };
             statementData.TotalAmount = TotalAmount(statementData);
             statementData.TotalVolumeCredits = TotalVolumeCredits(statementData);
-            return RenderPlainText(statementData, plays);
+            return statementData;
         }
 
         private Performance EnrichPerformance(Performance performance)
@@ -55,24 +63,12 @@ namespace Refactoring.FirstExampleTests
 
         private int TotalAmount(StatementData data)
         {
-            var result = 0;
-            foreach (var perf in data.Performances)
-            {
-                result += perf.Amount;
-            }
-
-            return result;
+            return data.Performances.Sum(perf => perf.Amount);
         }
 
         private int TotalVolumeCredits(StatementData data)
         {
-            var volumeCredits = 0;
-            foreach (var perf in data.Performances)
-            {
-                volumeCredits += perf.VolumeCredits;
-            }
-
-            return volumeCredits;
+            return data.Performances.Sum(perf => perf.VolumeCredits);
         }
 
         private string USD(int thisAmount)
