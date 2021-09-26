@@ -10,5 +10,10 @@ namespace Refactoring.FirstExampleTests
             Name = name;
             Type = type;
         }
+        
+        public Play Clone()
+        {
+            return (Play) this.MemberwiseClone();
+        }
     }
 }
