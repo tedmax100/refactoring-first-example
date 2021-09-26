@@ -11,13 +11,19 @@ namespace Refactoring.FirstExampleTests
         {
             public string Customer { get; set; }
             public IEnumerable<Performance> Performances { get; set; }
+            
+            public int TotalAmount { get; set; }
+            public int TotalVolumeCredits { get; set; }
         }
         
         private Dictionary<string, Play> _plays;
         public string Statement(Invoice invoice, Dictionary<string, Play> plays)
         {
+            _plays = plays;
             var statementData = new StatementData() {Customer = invoice.Customer};
-            statementData.Performances = invoice.Performances.Select(p => EnrichPerformance(p));
+            statementData.Performances = invoice.Performances.Select(p => EnrichPerformance(p)).ToList();
+            statementData.TotalAmount = TotalAmount(statementData);
+            statementData.TotalVolumeCredits = TotalVolumeCredits(statementData);
             return RenderPlainText(statementData, plays);
         }
 
@@ -42,8 +48,8 @@ namespace Refactoring.FirstExampleTests
                 result += $" {perf.Play.Name}: {USD(perf.Amount)} ({perf.Audience} seats)\r\n";
             }
 
-            result += $"Amount owed is {USD(TotalAmount(data))}\r\n";
-            result += $"You earned {TotalVolumeCredits(data)} credits";
+            result += $"Amount owed is {USD(data.TotalAmount)}\r\n";
+            result += $"You earned {data.TotalVolumeCredits} credits";
             return result;
         }
 
