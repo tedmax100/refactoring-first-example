@@ -25,6 +25,7 @@ namespace Refactoring.FirstExampleTests
         {
             var p = performance.Clone();
             p.Play = PlayFor(p);
+            p.Amount = AmountFor(p);
             return p;
         }
 
@@ -37,7 +38,7 @@ namespace Refactoring.FirstExampleTests
             foreach (var perf in data.Performances)
             {
                 // print line for this order
-                result += $" {perf.Play.Name}: {USD(AmountFor(perf))} ({perf.Audience} seats)\r\n";
+                result += $" {perf.Play.Name}: {USD(perf.Amount)} ({perf.Audience} seats)\r\n";
             }
 
             result += $"Amount owed is {USD(TotalAmount(data))}\r\n";
@@ -50,7 +51,7 @@ namespace Refactoring.FirstExampleTests
             var result = 0;
             foreach (var perf in data.Performances)
             {
-                result += AmountFor(perf);
+                result += perf.Amount;
             }
 
             return result;
