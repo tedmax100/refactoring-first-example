@@ -23,7 +23,7 @@ class Theater {
    {method} string Statement(Invoice, Dictionary<string, Play>)
 }
 
-Invoice "1" *-- "many" Performance
+Invoice "1" o-- "many" Performance
 Theater ..> Invoice
 Theater "1"..>"many" Play
 
