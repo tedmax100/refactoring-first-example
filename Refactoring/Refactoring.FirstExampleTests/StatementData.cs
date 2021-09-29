@@ -64,31 +64,7 @@ namespace Refactoring.FirstExampleTests
 
         private int AmountFor(Performance aPerformance)
         {
-            int result;
-            switch (aPerformance.Play.Type)
-            {
-                case "tragedy":
-                    result = 40000;
-                    if (aPerformance.Audience > 30)
-                    {
-                        result += 1000 * (aPerformance.Audience - 30);
-                    }
-
-                    break;
-                case "comedy":
-                    result = 30000;
-                    if (aPerformance.Audience > 20)
-                    {
-                        result += 10000 + 500 * (aPerformance.Audience - 20);
-                    }
-
-                    result += 300 * aPerformance.Audience;
-                    break;
-                default:
-                    throw new Exception($"unknown type: {aPerformance.Play.Type}");
-            }
-
-            return result;
+            return new PerformanceCalculator(aPerformance, PlayFor(aPerformance)).Amount();
         }
     }
 }
