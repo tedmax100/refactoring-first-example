@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Refactoring.FirstExampleTests
 {
-    public class PerformanceCalculator
+    public abstract class PerformanceCalculator
     {
         public Performance Performance { get; set; }
 
@@ -27,18 +27,13 @@ namespace Refactoring.FirstExampleTests
             }
         }
         
-        public int Amount()
+        public virtual int Amount()
         {
             int result;
             switch (Play.Type)
             {
                 case "tragedy":
-                    result = 40000;
-                    if (Performance.Audience > 30)
-                    {
-                        result += 1000 * (Performance.Audience - 30);
-                    }
-
+                    throw new Exception("bad");
                     break;
                 case "comedy":
                     result = 30000;
@@ -71,6 +66,17 @@ namespace Refactoring.FirstExampleTests
     {
         public TragedyCalculator(Performance perf, Play play) : base(perf, play)
         { }
+        
+        public override int Amount()
+        {
+            var result = 40000;
+            if (Performance.Audience > 30)
+            {
+                result += 1000 * (Performance.Audience - 30);
+            }
+
+            return result;
+        }
     }
     
     public class ComedyCalculator : PerformanceCalculator
