@@ -29,26 +29,7 @@ namespace Refactoring.FirstExampleTests
         
         public virtual int Amount()
         {
-            int result;
-            switch (Play.Type)
-            {
-                case "tragedy":
-                    throw new Exception("bad");
-                    break;
-                case "comedy":
-                    result = 30000;
-                    if (Performance.Audience > 20)
-                    {
-                        result += 10000 + 500 * (Performance.Audience - 20);
-                    }
-
-                    result += 300 * Performance.Audience;
-                    break;
-                default:
-                    throw new Exception($"unknown type: {Play.Type}");
-            }
-
-            return result;
+            throw new Exception("subclass responsibility");
         }
         
         public int VolumeCredits()
@@ -83,5 +64,18 @@ namespace Refactoring.FirstExampleTests
     {
         public ComedyCalculator(Performance perf, Play play) : base(perf, play)
         { }
+        
+        public override int Amount()
+        {
+            var result = 30000;
+            if (Performance.Audience > 20)
+            {
+                result += 10000 + 500 * (Performance.Audience - 20);
+            }
+
+            result += 300 * Performance.Audience;
+
+            return result;
+        }
     }
 }
