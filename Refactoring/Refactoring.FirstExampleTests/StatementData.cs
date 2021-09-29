@@ -29,8 +29,10 @@ namespace Refactoring.FirstExampleTests
         
         private Performance EnrichPerformance(Performance performance)
         {
+            var calculator = new PerformanceCalculator(performance, PlayFor(performance));
+            
             var p = performance.Clone();
-            p.Play = PlayFor(p);
+            p.Play = calculator.Play;
             p.Amount = AmountFor(p);
             p.VolumeCredits = VolumeCreditsFor(p);
             return p;
@@ -63,31 +65,48 @@ namespace Refactoring.FirstExampleTests
 
         private int AmountFor(Performance aPerformance)
         {
-            int result;
-            switch (aPerformance.Play.Type)
+           return new PerformanceCalculator(aPerformance, PlayFor(aPerformance)).Amount();
+        }
+        
+        public class PerformanceCalculator
+        {
+            public Performance Performance;
+            public Play Play { get; }
+            public PerformanceCalculator(Performance perf, Play play)
             {
-                case "tragedy":
-                    result = 40000;
-                    if (aPerformance.Audience > 30)
-                    {
-                        result += 1000 * (aPerformance.Audience - 30);
-                    }
-
-                    break;
-                case "comedy":
-                    result = 30000;
-                    if (aPerformance.Audience > 20)
-                    {
-                        result += 10000 + 500 * (aPerformance.Audience - 20);
-                    }
-
-                    result += 300 * aPerformance.Audience;
-                    break;
-                default:
-                    throw new Exception($"unknown type: {aPerformance.Play.Type}");
+                this.Performance = perf;
+                this.Play = play;
             }
+            
+            public int Amount()
+            {
+                int result;
+                switch (this.Play.Type)
+                {
+                    case "tragedy":
+                        result = 40000;
+                        if (this.Performance.Audience > 30)
+                        {
+                            result += 1000 * (Performance.Audience - 30);
+                        }
 
-            return result;
+                        break;
+                    case "comedy":
+                        result = 30000;
+                        if (Performance.Audience > 20)
+                        {
+                            result += 10000 + 500 * (Performance.Audience - 20);
+                        }
+
+                        result += 300 * Performance.Audience;
+                        break;
+                    default:
+                        throw new Exception($"unknown type: {Performance.Play.Type}");
+                }
+
+                return result;
+            }
         }
     }
+    
 }
