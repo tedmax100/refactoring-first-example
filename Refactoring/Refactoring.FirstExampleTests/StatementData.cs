@@ -32,7 +32,7 @@ namespace Refactoring.FirstExampleTests
             var calculator = new PerformanceCalculator(performance, PlayFor(performance));
             var p = performance.Clone();
             p.Play = calculator.Play;
-            p.Amount = AmountFor(p);
+            p.Amount = calculator.Amount();
             p.VolumeCredits = VolumeCreditsFor(p);
             return p;
         }
@@ -60,11 +60,6 @@ namespace Refactoring.FirstExampleTests
         private Play PlayFor( Performance perf)
         {
             return _plays[perf.PlayId];
-        }
-
-        private int AmountFor(Performance aPerformance)
-        {
-            return new PerformanceCalculator(aPerformance, PlayFor(aPerformance)).Amount();
         }
     }
 }

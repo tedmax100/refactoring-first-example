@@ -16,7 +16,7 @@ namespace Refactoring.FirstExampleTests
         public int Amount()
         {
             int result;
-            switch (Performance.Play.Type)
+            switch (Play.Type)
             {
                 case "tragedy":
                     result = 40000;
