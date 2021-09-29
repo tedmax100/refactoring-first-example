@@ -41,5 +41,15 @@ namespace Refactoring.FirstExampleTests
 
             return result;
         }
+        
+        public int VolumeCredits()
+        {
+            int result = 0;
+            // add volume credits
+            result += Math.Max(this.Performance.Audience - 30, 0);
+            // add extra credit for every ten comedy attendees
+            if ("comedy" == Play.Type) result += (int) Math.Floor((double) Performance.Audience / 5);
+            return result;
+        }
     }
 }

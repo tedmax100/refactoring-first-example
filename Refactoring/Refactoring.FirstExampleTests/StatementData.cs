@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,7 +32,7 @@ namespace Refactoring.FirstExampleTests
             var p = performance.Clone();
             p.Play = calculator.Play;
             p.Amount = calculator.Amount();
-            p.VolumeCredits = VolumeCreditsFor(p);
+            p.VolumeCredits = calculator.VolumeCredits();
             return p;
         }
         
@@ -45,16 +44,6 @@ namespace Refactoring.FirstExampleTests
         private int TotalVolumeCredits(StatementData data)
         {
             return data.Performances.Sum(perf => perf.VolumeCredits);
-        }
-        
-        private int VolumeCreditsFor(Performance perf)
-        {
-            int result = 0;
-            // add volume credits
-            result += Math.Max(perf.Audience - 30, 0);
-            // add extra credit for every ten comedy attendees
-            if ("comedy" == perf.Play.Type) result += (int) Math.Floor((double) perf.Audience / 5);
-            return result;
         }
 
         private Play PlayFor( Performance perf)
