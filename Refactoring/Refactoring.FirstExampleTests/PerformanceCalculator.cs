@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Newtonsoft.Json.Serialization;
 
 namespace Refactoring.FirstExampleTests
 {
@@ -32,13 +33,11 @@ namespace Refactoring.FirstExampleTests
             throw new Exception("subclass responsibility");
         }
         
-        public int VolumeCredits()
+        public virtual int VolumeCredits()
         {
             int result = 0;
             // add volume credits
             result += Math.Max(this.Performance.Audience - 30, 0);
-            // add extra credit for every ten comedy attendees
-            if ("comedy" == Play.Type) result += (int) Math.Floor((double) Performance.Audience / 5);
             return result;
         }
     }
@@ -76,6 +75,11 @@ namespace Refactoring.FirstExampleTests
             result += 300 * Performance.Audience;
 
             return result;
+        }
+
+        public override int VolumeCredits()
+        {
+            return base.VolumeCredits() + (int) Math.Floor((double) Performance.Audience / 5);
         }
     }
 }
