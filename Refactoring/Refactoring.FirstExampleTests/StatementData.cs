@@ -33,8 +33,8 @@ namespace Refactoring.FirstExampleTests
             
             var p = performance.Clone();
             p.Play = calculator.Play;
-            p.Amount = AmountFor(p);
-            p.VolumeCredits = VolumeCreditsFor(p);
+            p.Amount = calculator.Amount();
+            p.VolumeCredits = calculator.VolumeCredits();//VolumeCreditsFor(p);
             return p;
         }
         
@@ -46,16 +46,6 @@ namespace Refactoring.FirstExampleTests
         private int TotalVolumeCredits(StatementData data)
         {
             return data.Performances.Sum(perf => perf.VolumeCredits);
-        }
-        
-        private int VolumeCreditsFor(Performance perf)
-        {
-            int result = 0;
-            // add volume credits
-            result += Math.Max(perf.Audience - 30, 0);
-            // add extra credit for every ten comedy attendees
-            if ("comedy" == perf.Play.Type) result += (int) Math.Floor((double) perf.Audience / 5);
-            return result;
         }
 
         private Play PlayFor( Performance perf)
@@ -104,6 +94,16 @@ namespace Refactoring.FirstExampleTests
                         throw new Exception($"unknown type: {Performance.Play.Type}");
                 }
 
+                return result;
+            }
+            
+            public int VolumeCredits( )
+            {
+                int result = 0;
+                // add volume credits
+                result += Math.Max(Performance.Audience - 30, 0);
+                // add extra credit for every ten comedy attendees
+                if ("comedy" == Play.Type) result += (int) Math.Floor((double) Performance.Audience / 5);
                 return result;
             }
         }
