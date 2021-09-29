@@ -13,6 +13,11 @@ namespace Refactoring.FirstExampleTests
             this.Play = play;
         }
         
+        public static PerformanceCalculator CreatePerformanceCalculator(Performance perf, Play play)
+        {
+            return new PerformanceCalculator(perf, play);
+        }
+        
         public int Amount()
         {
             int result;

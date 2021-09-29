@@ -28,7 +28,7 @@ namespace Refactoring.FirstExampleTests
         
         private Performance EnrichPerformance(Performance performance)
         {
-            var calculator = new PerformanceCalculator(performance, PlayFor(performance));
+            var calculator = PerformanceCalculator.CreatePerformanceCalculator(performance, PlayFor(performance));
             var p = performance.Clone();
             p.Play = calculator.Play;
             p.Amount = calculator.Amount();
