@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace Refactoring.FirstExampleTests
 {
@@ -15,7 +16,15 @@ namespace Refactoring.FirstExampleTests
         
         public static PerformanceCalculator CreatePerformanceCalculator(Performance perf, Play play)
         {
-            return new PerformanceCalculator(perf, play);
+            switch (play.Type)
+            {
+                case "tragedy":
+                    return new TragedyCalculator(perf, play);
+                case "comedy":
+                    return new ComedyCalculator(perf, play);
+                default:
+                    throw new Exception($"unknown type: {play.Type}");
+            }
         }
         
         public int Amount()
@@ -56,5 +65,17 @@ namespace Refactoring.FirstExampleTests
             if ("comedy" == Play.Type) result += (int) Math.Floor((double) Performance.Audience / 5);
             return result;
         }
+    }
+
+    public class TragedyCalculator : PerformanceCalculator
+    {
+        public TragedyCalculator(Performance perf, Play play) : base(perf, play)
+        { }
+    }
+    
+    public class ComedyCalculator : PerformanceCalculator
+    {
+        public ComedyCalculator(Performance perf, Play play) : base(perf, play)
+        { }
     }
 }
