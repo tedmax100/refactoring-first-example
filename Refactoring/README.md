@@ -1,5 +1,5 @@
 ![er](ER.png)
-````
+```
 @startuml
 
 class Play {
@@ -43,6 +43,7 @@ Theater .. theater
 ```
 
 After refactoring
+![er](ER2.png)
 ```
 @startuml
 
